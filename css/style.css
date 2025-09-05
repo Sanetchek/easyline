@@ -3777,6 +3777,12 @@ button[name="save_account_details"] {
     animation: spin 0.6s linear infinite;
 }
 
+.woocommerce::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);
