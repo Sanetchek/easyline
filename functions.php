@@ -1,4 +1,60 @@
 <?php
+// Handle WhatsApp number option
+if (!get_option('whatsapp_number')) {
+    add_option('whatsapp_number', '972500000000'); // Default Israeli number
+}
+
+// Add WhatsApp number settings to WordPress admin
+add_action('admin_menu', function() {
+    add_options_page(
+        'WhatsApp Settings',
+        'WhatsApp Number',
+        'manage_options',
+        'whatsapp-settings',
+        'whatsapp_settings_page'
+    );
+});
+
+function whatsapp_settings_page() {
+    if (isset($_POST['save_whatsapp_settings'])) {
+        if (!wp_verify_nonce($_POST['whatsapp_nonce'], 'save_whatsapp_settings')) {
+            wp_die('Security check failed');
+        }
+
+        $whatsapp_number = sanitize_text_field($_POST['whatsapp_number']);
+        update_option('whatsapp_number', $whatsapp_number);
+        echo '<div class="notice notice-success"><p>WhatsApp number saved successfully!</p></div>';
+    }
+
+    $current_number = get_option('whatsapp_number', '972500000000');
+    ?>
+    <div class="wrap">
+        <h1>WhatsApp Settings</h1>
+        <form method="post" action="">
+            <?php wp_nonce_field('save_whatsapp_settings', 'whatsapp_nonce'); ?>
+            <table class="form-table">
+                <tr>
+                    <th scope="row">
+                        <label for="whatsapp_number"><?php _e('WhatsApp Number', 'easyline'); ?></label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="whatsapp_number"
+                               name="whatsapp_number"
+                               value="<?php echo esc_attr($current_number); ?>"
+                               class="regular-text"
+                               placeholder="972500000000" />
+                        <p class="description">
+                            <?php _e('Enter WhatsApp number without + sign (e.g., 972500000000 for Israel number +972-50-0000000)', 'easyline'); ?>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <?php submit_button('Save Settings', 'primary', 'save_whatsapp_settings'); ?>
+        </form>
+    </div>
+    <?php
+}
 
 // Theme Setup
 function theme_setup() {
@@ -127,3 +183,6 @@ require_once(get_template_directory() . '/inc/embed-code.php');
 
 /** WooCommerce */
 require_once(get_template_directory() . '/inc/woo.php');
+
+/** Medical Post */
+require_once(get_template_directory() . '/inc/medical-post.php');

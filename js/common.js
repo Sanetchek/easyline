@@ -19,7 +19,6 @@ jQuery(document).ready(function($){
 			$(".logo > a:not(.btn-cart)").before($(".header .phone"));
 	  }
 	  if($(window).width()>767){
-			equal_height($(".product-item-shop .image-link"));
 			equal_height($(".shop .content .products .product-item-shop__desc"));
 			equal_height($(".category .content .products .product-item-image .title"));
 			equal_height($(".category .content .products .product-item-image"));

@@ -1850,6 +1850,29 @@ h1 {
     margin: 0;
 }
 
+.category .content .content-top .title-with-image {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.category .content .content-top .title-with-image .title {
+    flex: 1;
+    margin: 0;
+    padding-left: 0;
+    width: auto;
+}
+
+.category .content .content-top .title-with-image .category-image {
+    flex-shrink: 0;
+}
+
+.category .content .content-top .title-with-image .category-thumbnail {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .category .content .content-top .title.full-width {
     width: 100%;
     line-height: normal;
@@ -1873,8 +1896,9 @@ h1 {
 }
 
 .image-block {
-    display: inline-block;
-    vertical-align: top;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 40%;
     padding-left: 10px;
 }
@@ -1981,8 +2005,12 @@ h1 {
 }
 
 .category .content .products .product-item-image .image-link {
-    margin-top: auto;
-    margin-bottom: 10px;
+    margin: 10px 0;
+    min-height: 260px;
+}
+
+.med-category a.image-link {
+    padding: 0 40px;
 }
 
 .category .content .products .product-item-image::after {
@@ -2559,6 +2587,202 @@ body .mfp-figure::after {
     text-decoration: none;
 }
 
+.content-top.med-product-title {
+    background-color: #F05A22;
+}
+
+.category .content .content-top.med-product-title h1.title {
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.med-product-code,
+.med-product-size {
+    display: flex;
+    gap: 6px;
+}
+
+.med-product-info {
+    margin-bottom: 40px;
+}
+
+.med-product-links {
+    margin-top: 40px;
+}
+
+a.med-product-link {
+    color: #000;
+    font-weight: 600;
+}
+
+@media screen and (max-width: 992px) {
+    .med-product .single-content {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 40px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .title-with-image {
+        align-items: center;
+    }
+
+    .title-with-image h1.title {
+        text-align: center;
+    }
+
+    .med-product .text-block {
+        text-align: center;
+    }
+
+    .med-product-info .med-product-code,
+    .med-product-info .med-product-size {
+        justify-content: center;
+    }
+}
+
+img.med-category-thumbnail {
+    width: auto;
+    height: 80px;
+}
+
+.page-description {
+    font-size: 14px;
+}
+
+/* WhatsApp Button Styles for Medical Categories */
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #25d366;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.whatsapp-btn:hover {
+    background-color: #128c7e;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-btn i {
+    font-size: 18px;
+}
+
+.category-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .category-actions {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .whatsapp-btn {
+        margin-top: 0;
+    }
+}
+
+/* Floating WhatsApp Button - Mobile Only */
+.floating-whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: none;
+    /* Hidden by default */
+}
+
+.floating-whatsapp a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.floating-whatsapp a:hover {
+    background-color: #128c7e;
+    color: white;
+    text-decoration: none;
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+}
+
+.floating-whatsapp i {
+    font-size: 28px;
+}
+
+.med-categories-page a.image-link {
+    padding: 0 40px;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.8), 0 0 0 0 rgba(37, 211, 102, 0.4);
+    }
+
+    100% {
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    }
+}
+
+/* Show floating button only on mobile */
+@media (max-width: 768px) {
+    .floating-whatsapp {
+        display: block;
+    }
+
+    /* Hide WhatsApp buttons in category cards on mobile */
+    .whatsapp-btn {
+        display: none !important;
+    }
+
+    .category-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .page-description {
+        text-align: center;
+    }
+}
+
+/* Hide floating button on tablet and desktop */
+@media (min-width: 769px) {
+    .floating-whatsapp {
+        display: none !important;
+    }
+}
+
 .shop .content .products .product-item-shop__desc {
     color: #000903;
     font-size: 15px;
@@ -2644,8 +2868,6 @@ body .mfp-figure::after {
 }
 
 .blog-page.product-item-shop .image-link {
-    min-height: initial;
-    height: auto !important;
     margin-bottom: 20px;
 }
 
@@ -3546,7 +3768,6 @@ button[name="save_account_details"] {
 
 .product-item-shop .image-link {
     min-height: initial;
-    height: fit-content !important;
 }
 
 .category .content .products .product-item-image {
@@ -4201,6 +4422,17 @@ button[name="save_account_details"] {
         margin-bottom: 5px;
     }
 
+    .category .content .content-top .title-with-image {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .category .content .content-top .title-with-image .title {
+        width: 100%;
+        font-size: 30px;
+    }
+
     .category .content {
         padding: 25px 25px 50px 0;
     }
@@ -4456,11 +4688,6 @@ button[name="save_account_details"] {
     .header .top-line .main-menu>ul>li.sub,
     .header .top-line .cart {
         display: none;
-    }
-
-    .product-item-shop .image-link,
-    .category .content .products .product-item-image {
-        min-height: inherit;
     }
 
     .map-wrap {

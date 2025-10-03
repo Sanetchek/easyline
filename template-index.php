@@ -16,10 +16,6 @@ get_header(); ?>
 
 					foreach ($slider_big as $key => $slides) { ?>
 						<?php
-
-						// echo '<pre>';
-						// print_r($slides);
-						// echo '</pre>';
 							$link = $slides['link'];
 							$image = wp_is_mobile() && $slides['mobile_image'] ? $slides['mobile_image'] : $slides['image']['sizes']['large'];
 						?>

@@ -23,11 +23,20 @@ get_header(); ?>
 						<div class="content-top">
 							<h1 class="title full-width"><?php the_title(); ?></h1>
 						</div>
-            <div class="text-block">
-            	<?php the_post(); the_content(); ?>
-            </div>
+
+						<div class="text-block">
+							<?php the_post(); the_content(); ?>
+						</div>
+
 						<div class="image-block">
-							<?php echo get_the_post_thumbnail(); ?>
+							<?php $image_id = get_post_thumbnail_id(); ?>
+							<?php if ($image_id) : ?>
+								<?php $alt = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: __('Image', 'easyline'); ?>
+								<?php echo liteimage($image_id, [
+									'thumb' => [0, 391],
+									'args' => ['alt' => $alt]
+								]); ?>
+							<?php endif; ?>
 						</div>
 					</div>
 				</div>
