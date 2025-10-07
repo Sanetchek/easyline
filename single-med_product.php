@@ -32,19 +32,18 @@ get_header(); ?>
 							}
 							?>
 							<li class="current breadcrumbs__item">
-								<span><?php the_title(); ?></span>
+								<span><?php _e('איזיליין בקופות החולים', 'easyline'); ?></span>
 							</li>
 						</ul><!-- .breadcrumbs -->
 					</section>
 					<div class="content content-blog">
 						<?php
-						// Получаем первую категорию поста (переиспользуем из хлебных крошек)
 						if (isset($first_category)) {
 							$category_image_id = get_term_meta($first_category->term_id, 'med_category_image_id', true);
 							?>
 							<div class="content-top">
 								<div class="title-with-image">
-									<h1 class="title"><?php echo esc_html($first_category->name); ?></h1>
+									<h1 class="title"><?php _e('איזיליין בקופות החולים', 'easyline'); ?></h1>
 									<?php
 									if ($category_image_id) {
 										echo '<div class="med-category-image">';

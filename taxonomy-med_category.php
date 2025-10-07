@@ -21,14 +21,14 @@ get_header();
 							$term_link = get_term_link($current_term);
 							?>
 							<li class="current breadcrumbs__item">
-								<span><?php echo esc_html($term_name); ?></span>
+								<span><?php _e('איזיליין בקופות החולים', 'easyline'); ?></span>
 							</li>
 						</ul><!-- .breadcrumbs -->
 					</section>
 					<div class="content">
 						<div class="content-top">
 							<div class="title-with-image">
-								<h1 class="title"><?php single_term_title(); ?></h1>
+								<h1 class="title"><?php _e('איזיליין בקופות החולים', 'easyline'); ?></h1>
 								<?php
 								$current_term = get_queried_object();
 								$term_image_id = get_term_meta($current_term->term_id, 'med_category_image_id', true);

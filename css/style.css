@@ -1890,6 +1890,11 @@ h1 {
     font-size: 14px;
 }
 
+main.content-page.med-product .text-block,
+main.content-page.med-product .text-block a {
+    font-size: 16px;
+}
+
 .ltr .text-block {
     padding-right: 20px;
     padding-left: 10px;

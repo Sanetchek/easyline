@@ -17,7 +17,7 @@ get_header();
 								>
 							</li>
 							<li class="current breadcrumbs__item">
-								<span><?php the_title(); ?></span>
+								<span><?php _e('איזיליין בקופות החולים', 'easyline'); ?></span>
 							</li>
 						</ul><!-- .breadcrumbs -->
 					</section>
@@ -26,7 +26,7 @@ get_header();
 						<!-- Page Title and Description -->
 						<div class="content-top">
 							<div class="title-with-image">
-								<h1 class="title"><?php the_title(); ?></h1>
+                                <h1 class="title"><?php _e('איזיליין בקופות החולים', 'easyline'); ?></h1>
 							</div>
 							<?php if (have_posts()) : ?>
 								<?php while (have_posts()) : the_post(); ?>
