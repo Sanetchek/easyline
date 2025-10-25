@@ -150,7 +150,7 @@ function theme_enqueue_assets() {
 	wp_dequeue_style('wp-block-library-rtl-css');
 
 	// AJAX endpoint
-  wp_localize_script( 'app', 'admin_ajax', array(
+  	wp_localize_script( 'app', 'admin_ajax', array(
 		'url' => admin_url('admin-ajax.php'),
 	));
 }
@@ -170,6 +170,11 @@ if (function_exists('acf_add_options_page')) {
 		'position' => 2,
 		'icon_url' => get_template_directory_uri() . '/img/logo-short.png',
 	));
+}
+
+function get_page_id_med_products() {
+	$page_id = 6660;
+	return $page_id;
 }
 
 /** Custom Code */

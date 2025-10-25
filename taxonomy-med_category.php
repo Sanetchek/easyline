@@ -16,12 +16,27 @@ get_header();
 								>
 							</li>
 							<?php
+							$page_id = get_page_id_med_products();
+							$page_link = get_permalink($page_id);
+							if ($page_link) {
+								$page_title = get_the_title($page_id);
+								?>
+								<li class="breadcrumbs__item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+									<a href="<?php echo esc_url($page_link); ?>" class="breadcrumbs__link" itemscope=""
+										itemtype="http://schema.org/Thing" itemprop="item">
+										<span class="breadcrumbs__name" itemprop="name"><?php echo esc_html($page_title); ?></span>
+									</a>
+									>
+								</li>
+								<?php
+							}
+							?>
+							<?php
 							$current_term = get_queried_object();
 							$term_name = $current_term->name;
-							$term_link = get_term_link($current_term);
 							?>
 							<li class="current breadcrumbs__item">
-								<span><?php _e('איזיליין בקופות החולים', 'easyline'); ?></span>
+								<span><?php echo esc_html($term_name); ?></span>
 							</li>
 						</ul><!-- .breadcrumbs -->
 					</section>
@@ -56,7 +71,6 @@ get_header();
 						</div>
 						<div class="products myRecipyProd">
 							<?php
-							// Получаем текущую категорию
 							$current_term = get_queried_object();
 							$term_id = $current_term->term_id;
 
@@ -86,9 +100,9 @@ get_header();
 										?>
 										<div class="product-item-image">
 											<div class="product-item-shop__title" style="background-color: <?php echo esc_attr($title_color); ?>;">
-												<a href="<?php the_permalink(); ?>" aria-current=""><?php the_title(); ?></a>
+												<a href="<?php echo add_query_arg('cat', $current_term->term_id, get_permalink()); ?>" aria-current=""><?php the_title(); ?></a>
 											</div>
-											<a href="<?php the_permalink(); ?>" class="image-link">
+											<a href="<?php echo add_query_arg('cat', $current_term->term_id, get_permalink()); ?>" class="image-link">
 												<?php
 												$img_id = get_post_thumbnail_id();
 												if ($img_id) {
@@ -107,14 +121,13 @@ get_header();
 												?>
 											</a>
 											<div>
-												<a href="<?php the_permalink(); ?>" class="myRecipyBtn"><?php echo __('לפרטים נוספים>', 'easyline'); ?></a>
+												<a href="<?php echo add_query_arg('cat', $current_term->term_id, get_permalink()); ?>" class="myRecipyBtn"><?php echo __('לפרטים נוספים>', 'easyline'); ?></a>
 											</div>
 										</div>
 									</div>
 									<?php
 								}
 
-								// Пагинация
 								$total_pages = $med_products_query->max_num_pages;
 								if ($total_pages > 1) {
 									echo '<div class="pagination-wrapper">';

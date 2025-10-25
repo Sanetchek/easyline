@@ -86,6 +86,55 @@ add_filter('manage_med_category_custom_column', function ($content, $column_name
     return $content;
 }, 10, 3);
 
+// Add med_category column to med_product posts list
+add_filter('manage_med_product_posts_columns', function ($columns) {
+    // Insert med_category column after title
+    $new_columns = [];
+    foreach ($columns as $key => $value) {
+        $new_columns[$key] = $value;
+        if ($key === 'title') {
+            $new_columns['med_category'] = __('Categories', 'easyline');
+        }
+    }
+    return $new_columns;
+});
+
+// Display med_category content in the column
+add_action('manage_med_product_posts_custom_column', function ($column_name, $post_id) {
+    if ($column_name === 'med_category') {
+        $categories = get_the_terms($post_id, 'med_category');
+        if ($categories && !is_wp_error($categories)) {
+            $category_links = [];
+            foreach ($categories as $category) {
+                $edit_link = get_edit_term_link($category->term_id, 'med_category');
+                $category_links[] = '<a href="' . esc_url($edit_link) . '">' . esc_html($category->name) . '</a>';
+            }
+            echo implode(', ', $category_links);
+        } else {
+            echo '<span style="color: #999;">' . __('No categories', 'easyline') . '</span>';
+        }
+    }
+}, 10, 2);
+
+// Make med_category column sortable
+add_filter('manage_edit-med_product_sortable_columns', function ($columns) {
+    $columns['med_category'] = 'med_category';
+    return $columns;
+});
+
+// Handle sorting by med_category
+add_action('pre_get_posts', function ($query) {
+    if (!is_admin() || !$query->is_main_query()) {
+        return;
+    }
+
+    $orderby = $query->get('orderby');
+    if ($orderby === 'med_category') {
+        $query->set('meta_key', 'med_category');
+        $query->set('orderby', 'meta_value');
+    }
+});
+
 // JS + media uploader + color picker
 add_action('admin_enqueue_scripts', function ($hook) {
     // For taxonomy pages
@@ -163,6 +212,7 @@ add_action('init', function () {
         'mp_link_label',
         'mp_link_url',
         'mp_title_color',
+        'mp_back_link_url',
     ];
     foreach ($fields as $key) {
         register_post_meta('med_product', $key, [
@@ -198,6 +248,7 @@ function render_med_product_extra_fields_mb(WP_Post $post)
     $link_label = get_post_meta($post->ID, 'mp_link_label', true) ?: __('לעמוד המוצר לחץ >', 'easyline');
     $link_url = get_post_meta($post->ID, 'mp_link_url', true) ?: '';
     $title_color = get_post_meta($post->ID, 'mp_title_color', true) ?: '#234e32';
+    $back_link_url = get_post_meta($post->ID, 'mp_back_link_url', true) ?: '';
 
     $woo_products = [];
     if (post_type_exists('product')) {
@@ -267,6 +318,17 @@ function render_med_product_extra_fields_mb(WP_Post $post)
           </div>
         </div>
 
+        <div class="mp-row">
+          <label><?php esc_html_e('Custom "Back to Products" URL', 'easyline'); ?></label>
+          <div class="mp-grid">
+            <input type="url" name="mp_back_link_url" id="mp_back_link_url" value="<?php echo esc_url($back_link_url); ?>"
+                   class="full" placeholder="<?php esc_html_e('https://easyline.co.il/...', 'easyline'); ?>">
+            <div class="full mp-help">
+              <?php esc_html_e('Optional: If set, this URL will be used for the "Back to Products" link instead of the category link.', 'easyline'); ?>
+            </div>
+          </div>
+        </div>
+
         <?php
 }
 
@@ -289,6 +351,7 @@ add_action('save_post_med_product', function ($post_id, $post) {
         'mp_link_label' => 'sanitize_text_field',
         'mp_link_url'   => 'esc_url_raw',
         'mp_title_color' => 'sanitize_hex_color',
+        'mp_back_link_url' => 'esc_url_raw',
     ];
     foreach ($map as $key => $cb) {
         if (isset($_POST[$key])) {
