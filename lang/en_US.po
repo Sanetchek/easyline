@@ -1,0 +1,326 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: easyline\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-14 15:27+0000\n"
+"PO-Revision-Date: 2025-05-14 14:42+0000\n"
+"Language-Team: English (United States)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.2; wp-6.0.1\n"
+"X-Domain: easyline\n"
+"Last-Translator: \n"
+"Language: en_US"
+
+#. Name of the template
+#: template-about.php:2
+msgid "About"
+msgstr "About"
+
+#. Name of the template
+#: template-blog.php:2
+msgid "Blog"
+msgstr "Blog"
+
+#. Name of the template
+#: template-blog_recipies_page.php:2
+msgid "Blog recipes page"
+msgstr "Blog recipes page"
+
+#. Name of the template
+#: template-blog_page.php:2
+msgid "Blog_page"
+msgstr "Blog page"
+
+#. Name of the template
+#: template-business_order_page.php:2
+msgid "Business order page"
+msgstr "Business order page"
+
+#. Description of the theme
+msgid ""
+"business,personal and parallax business portfolio, photography sites and "
+"freelancer.Is built on BootStrap with parallax support, is responsive, clean,"
+" modern, flat and minimal. Zerif Lite is ecommerce (WooCommerce) Compatible, "
+"WPML, RTL, Retina-Ready, SEO Friendly and with parallax, full screen image "
+"is one of the best business themes."
+msgstr ""
+"business,personal and parallax business portfolio, photography sites and "
+"freelancer.Is built on BootStrap with parallax support, is responsive, clean,"
+" modern, flat and minimal. Zerif Lite is ecommerce (WooCommerce) Compatible, "
+"WPML, RTL, Retina-Ready, SEO Friendly and with parallax, full screen image "
+"is one of the best business themes."
+
+#. Name of the template
+#: template-contact.php:2
+msgid "Contact"
+msgstr "Contact"
+
+#. Name of the theme
+msgid "easyline 2.0"
+msgstr "easyline 2.0"
+
+#. Name of the template
+#: template-faq.php:2
+msgid "FAQ"
+msgstr "FAQ"
+
+#: functions.php:17
+msgid "Header Menu"
+msgstr "Header Menu"
+
+#. URI of the theme
+#. Author URI of the theme
+msgid "http://"
+msgstr "http://"
+
+#. Name of the template
+#: template-index.php:2
+msgid "Index"
+msgstr "Index"
+
+#: template-parts/header/main-menu.php:1
+msgid "Main Menu"
+msgstr "Main Menu"
+
+#: sidebar.php:2
+msgid "MEnu Right"
+msgstr "Menu Right"
+
+#: functions.php:13
+msgid "Primary Menu"
+msgstr "Primary Menu"
+
+#: functions.php:14
+msgid "Primary2 Menu"
+msgstr "Primary2 Menu"
+
+#: functions.php:15
+msgid "Primary3 Menu"
+msgstr "Primary3 Menu"
+
+#: functions.php:16
+msgid "Primary4 Menu"
+msgstr "Primary4 Menu"
+
+#. Name of the template
+#: template-products.php:2
+msgid "Products"
+msgstr "Products"
+
+#: searchform.php:2
+msgid "Search Form"
+msgstr "Search Form"
+
+#: searchform.php:7
+msgid "Search input"
+msgstr "Search input"
+
+#: searchform.php:7
+msgid "Search..."
+msgstr "Search..."
+
+#. Name of the template
+#: category.php:3 template-cat.php:2
+msgid "Shop"
+msgstr "Shop"
+
+#: searchform.php:3 searchform.php:4
+msgid "Submit search"
+msgstr "Submit search"
+
+#. Author of the theme
+msgid "Web-systems.solutions"
+msgstr "Web-systems.solutions"
+
+#: single-product.php:127 taxonomy-product_cat.php:104
+msgid "אזל מהמלאי"
+msgstr "Out of Stock"
+
+#: 404.php:15
+msgid "אתה נמצא כאן מפני שהזנת כתובת דף שאינה קיימת עוד או הועברה לכתובת אחרת "
+msgstr ""
+"You are here because you entered a page address that no longer exists or has "
+"been moved to another address "
+
+#: single-product.php:80
+msgid "בחר אפשרות: "
+msgstr "Select an option: "
+
+#: search.php:31
+msgid "דבר לא נמצא "
+msgstr "Nothing found "
+
+#: template-contact.php:50
+msgid "דוא”ל: "
+msgstr "Email: "
+
+#: inc/custom-code.php:69
+msgid "הוסף לסל "
+msgstr "Add to the basket "
+
+#: taxonomy-product_cat.php:32
+msgid "החנות שלנו "
+msgstr "Our store "
+
+#: footer.php:109
+msgid "המוצר נוסף בהצלחה לעגלת הקניות "
+msgstr "The product was successfully added to the shopping cart "
+
+#: footer.php:123
+msgid "המוצר נוסף בהצלחה לרשימת המשאלות "
+msgstr "Product successfully added to Wishlist "
+
+#: footer.php:112 footer.php:126
+msgid "המשך בקניות "
+msgstr "Continue shopping "
+
+#: template-parts/header/main-menu.php:11
+msgid "התחברות "
+msgstr "Login "
+
+#: woocommerce/cart/cart.php:131
+msgid "חזור לחנות "
+msgstr "Return To Shop "
+
+#: search.php:11
+msgid "חיפוש "
+msgstr "Search "
+
+#: template-contact.php:56
+msgid "חפשו אותנו ברשת "
+msgstr "Follow Us on Facebook "
+
+#: footer.php:85
+msgid "ט.ל.ח    התמונות להמחשה בלבד "
+msgstr "Photo illustration only "
+
+#: footer.php:10
+msgid "טופס פניות ושאלות"
+msgstr "Inquiries and questions form"
+
+#: footer.php:80
+msgid "טל "
+msgstr "Tel "
+
+#: inc/custom-code.php:111
+msgid "טל. "
+msgstr "Tel. "
+
+#: template-contact.php:49
+msgid "טל: "
+msgstr "Office: "
+
+#: footer.php:18
+msgid "טלפון (שדה חובה)"
+msgstr "Phone (required field)"
+
+#: footer.php:86
+msgid "כל הזכויות שמורות לאיזיליין© "
+msgstr "All rights reserved to Easy Line © "
+
+#: woocommerce/cart/mini-cart.php:79
+msgid "כמות: "
+msgstr "Quantity: "
+
+#: template-contact.php:51
+msgid "כתובת: "
+msgstr "Address: "
+
+#: footer.php:92 template-parts/header/logo.php:3
+msgid "לוגו איזיליין"
+msgstr "Easyline logo"
+
+#: sidebar.php:19
+msgid "לחץ כאן "
+msgstr "Click Here "
+
+#: template-index.php:63
+msgid "לפרטים נוספים "
+msgstr "For further details "
+
+#: template-blog_page.php:63 template-blog_recipies_page.php:51
+#: template-cat.php:66
+msgid "לפרטים נוספים>"
+msgstr "Read more>"
+
+#: category.php:69
+msgid "לפרטים נוספים> "
+msgstr "Read more> "
+
+#: single-product.php:173 taxonomy-product_cat.php:111
+msgid "לפרטים>"
+msgstr "For details>"
+
+#: sidebar.php:19
+msgid "לקוח חדש? "
+msgstr "New Client? "
+
+#: woocommerce/cart/mini-cart.php:110
+msgid "לקופה "
+msgstr "To the cart "
+
+#: single-product.php:50 taxonomy-product_cat.php:91
+msgid "מבצע "
+msgstr "sale "
+
+#: woocommerce/cart/mini-cart.php:34
+msgid "מוצרים בסל "
+msgstr "Products in the basket "
+
+#: single-product.php:160
+msgid "מוצרים שיענינו אתכם "
+msgstr "Products you may like "
+
+#: woocommerce/cart/mini-cart.php:31
+msgid "מחובר: לקוח אורח"
+msgstr "Online: Guest customer"
+
+#: single-product.php:117
+msgid "מק\"ט: "
+msgstr "SKU: "
+
+#: woocommerce/cart/cart-shipping.php:25
+msgid "משלוח"
+msgstr "Shipping"
+
+#: 404.php:16
+msgid "נסה לחפש כאן "
+msgstr "Try searching here "
+
+#: template-contact.php:57
+msgid "נשמח אם תעקבו, תשתפו תפרגנו אנחנו תמיד זמינים בכל פלטפורמה בכל זמן "
+msgstr ""
+"We will be happy if you follow, share and we are always available on any "
+"platform at any time "
+
+#: footer.php:11
+msgid "נשמח לפניות ושאלות "
+msgstr "We look forward to your inquiries and questions "
+
+#: woocommerce/cart/mini-cart.php:35
+msgid "סה״כ "
+msgstr "Total "
+
+#: footer.php:114
+msgid "עבור אל סל הקניות "
+msgstr "Go to Cart "
+
+#: footer.php:128
+msgid "עבור לרשימת משאלות "
+msgstr "Go to Wishlist now "
+
+#: footer.php:21 footer.php:24
+msgid "שלח "
+msgstr "Send "
+
+#: footer.php:14
+msgid "שם מלא (שדה חובה)"
+msgstr "Full name (required field)"
+
+#: template-contact.php:47
+msgid "שמרו על קשר "
+msgstr "Keep in touch "
