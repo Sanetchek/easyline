@@ -129,15 +129,7 @@ if ($med_categories && !is_wp_error($med_categories)) {
 									<?php
 									if ($category_image_id) {
 										echo '<div class="med-category-image">';
-										echo liteimage($category_image_id, [
-											'thumb' => [0, 80],
-											'args' => [
-												'alt' => $first_category->name,
-												'class' => 'med-category-thumbnail',
-												'loading' => 'lazy',
-												'decoding' => 'async'
-											],
-										]);
+										echo wp_get_attachment_image($category_image_id, [0, 80], false, ['alt' => $first_category->name, 'class' => 'med-category-thumbnail', 'loading' => 'lazy', 'decoding' => 'async']);
 										echo '</div>';
 									}
 									?>
@@ -216,10 +208,7 @@ if ($med_categories && !is_wp_error($med_categories)) {
 								<?php $image_id = get_post_thumbnail_id(); ?>
 								<?php if ($image_id) : ?>
 									<?php $alt = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: __('Image', 'easyline'); ?>
-									<?php echo liteimage($image_id, [
-										'thumb' => [0, 391],
-										'args' => ['alt' => $alt]
-									]); ?>
+									<?php echo wp_get_attachment_image($image_id, [0, 391], false, ['alt' => $alt]); ?>
 								<?php endif; ?>
 							</div>
 						</div>
