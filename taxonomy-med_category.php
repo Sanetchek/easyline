@@ -49,7 +49,15 @@ get_header();
 								$term_image_id = get_term_meta($current_term->term_id, 'med_category_image_id', true);
 								if ($term_image_id) {
 									echo '<div class="med-category-image">';
-									echo wp_get_attachment_image($term_image_id, [0, 80], false, ['alt' => $current_term->name, 'class' => 'med-category-thumbnail', 'loading' => 'lazy', 'decoding' => 'async']);
+									echo liteimage($term_image_id, [
+										'thumb' => [0, 80],
+										'args'  => [
+											'alt' => $current_term->name,
+											'class' => 'med-category-thumbnail',
+											'loading' => 'lazy',
+											'decoding' => 'async'
+										],
+									]);
 									echo '</div>';
 								}
 								?>
@@ -98,7 +106,15 @@ get_header();
 												<?php
 												$img_id = get_post_thumbnail_id();
 												if ($img_id) {
-													echo wp_get_attachment_image($img_id, 'medium', false, ['alt' => get_the_title(), 'class' => 'image', 'loading' => 'lazy', 'decoding' => 'async']);
+													echo liteimage($img_id, [
+														'thumb' => [0, 260],
+														'args'  => [
+															'alt' => get_the_title(),
+															'class' => 'image',
+															'loading' => 'lazy',
+															'decoding' => 'async'
+														],
+													]);
 												} else {
 													echo '<img src="' . get_template_directory_uri() . '/img/product.png" class="image" alt="' . get_the_title() . '" />';
 												}

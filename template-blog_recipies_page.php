@@ -49,7 +49,15 @@ get_header();
 												<?php
 													$img_id = get_post_thumbnail_id($value->ID);
 													if ($img_id) {
-														echo wp_get_attachment_image($img_id, 'medium', false, ['alt' => get_the_title(), 'class' => 'image', 'loading' => 'lazy', 'decoding' => 'async']);
+														echo liteimage($img_id, [
+															'thumb' => [450, 260],
+															'args' => [
+																'alt' => get_the_title(),
+																'class' => 'image',
+																'loading' => 'lazy',
+																'decoding' => 'async'
+															],
+														]);
 													} else {
 														echo '<img src="' . get_template_directory_uri() . '/img/product.png" class="image" alt="' . get_the_title() . '" />';
 													}

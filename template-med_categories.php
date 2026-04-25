@@ -72,7 +72,15 @@ get_header();
 											<a href="<?php echo get_term_link($category); ?>" class="image-link">
 												<?php
 												if ($category_image_id) {
-													echo wp_get_attachment_image($category_image_id, 'medium', false, ['alt' => $category->name, 'class' => 'image', 'loading' => 'lazy', 'decoding' => 'async']);
+													echo liteimage($category_image_id, [
+														'thumb' => [0, 260],
+														'args'  => [
+															'alt' => $category->name,
+															'class' => 'image',
+															'loading' => 'lazy',
+															'decoding' => 'async'
+														],
+													]);
 												} else {
 													echo '<img src="' . get_template_directory_uri() . '/img/shop.png" class="image" alt="' . esc_attr($category->name) . '" />';
 												}
