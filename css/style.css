@@ -2517,6 +2517,27 @@ body .mfp-figure::after {
     width: 100%;
 }
 
+.blog-category-content {
+    gap: 20px;
+}
+
+.blog-category-content .image-link {
+    display: block;
+}
+
+.blog-category-content .image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.blog-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 20px;
+}
+
 .blog-desc {
     margin: 20px 0 10px;
     font-size: 20px;
@@ -2571,6 +2592,11 @@ body .mfp-figure::after {
 
 .shop .content .products .product-item-shop .product-item-image {
     padding: 10px;
+    justify-content: flex-start;
+}
+
+.shop .content .products .product-item-shop .product-item-image a.image-link {
+    order: 2;
 }
 
 .shop .content .products .product-item-shop .product-item-image::after {
@@ -2579,6 +2605,7 @@ body .mfp-figure::after {
 }
 
 .shop .content .products .product-item-shop__title {
+    order: 1;
     font-size: 26px;
     line-height: 1;
     padding: 11px 3px;
@@ -2789,16 +2816,37 @@ img.med-category-thumbnail {
 }
 
 .shop .content .products .product-item-shop__desc {
+    order: 3;
     color: #000903;
     font-size: 15px;
-    line-height: 20px;
+    line-height: 1.4;
     text-align: right;
-    padding: 0 40px;
+    padding: 0 10px;
     margin-bottom: 10px;
+}
+
+body.rtl .shop .content .products .product-item-shop__desc {
+    direction: rtl;
+    unicode-bidi: plaintext;
 }
 
 .ltr .shop .content .products .product-item-shop__desc {
     text-align: left;
+}
+
+body.ltr .shop .content .products .product-item-shop__desc {
+    direction: ltr;
+    unicode-bidi: plaintext;
+}
+
+.shop .content .products .product-item-shop .image-link + .product-item-shop__desc {
+    margin-top: 14px;
+}
+
+.shop .content .products .product-item-shop .product-item-shop__more-wrap {
+    order: 4;
+    text-align: center;
+    margin-top: 8px;
 }
 
 .shop .content .products .product-item-shop .more {
@@ -2934,13 +2982,17 @@ img.med-category-thumbnail {
     color: #000000;
 }
 
-.content-page .right-menu ul li.menu-item-has-children span {
+.content-page .right-menu ul li.menu-item-has-children .submenu-toggle {
     margin-left: 10px;
     transform: rotate(180deg);
     display: inline-block;
     vertical-align: middle;
     position: relative;
     cursor: pointer;
+}
+
+.content-page .right-menu ul li.menu-item-has-children .submenu-toggle[aria-expanded="true"] {
+    transform: rotate(0deg);
 }
 
 .content-page .right-menu ul li.menu-item-has-children>a {
@@ -3765,7 +3817,7 @@ button[name="save_account_details"] {
     margin-bottom: 0 !important;
 }
 
-.shop .content .products .product-item-shop__desc {
+.myRecipyProd .product-item-shop__desc {
     font-size: 20px;
     padding: 0 5px;
     height: fit-content !important;
@@ -4266,7 +4318,7 @@ button[name="save_account_details"] {
         display: none;
     }
 
-    .content-page .right-menu ul li.menu-item-has-children span {
+    .content-page .right-menu ul li.menu-item-has-children .submenu-toggle {
         margin-left: 0;
         width: 20px;
         text-align: center;
@@ -4894,5 +4946,107 @@ button[name="save_account_details"] {
     .container {
         width: 100%;
         padding: 0;
+    }
+}
+
+/* Blog category archive: equal card height — fixed title band, image, flex excerpt, CTA at bottom */
+.content-page .category.shop .products.blog-cat-archive {
+    align-items: stretch;
+}
+
+.content-page .category.shop .products.blog-cat-archive .blog-cat-post {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+}
+
+.content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-image {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    grid-template-rows: 120px 240px 1fr auto;
+    grid-template-areas:
+        "blogCatTitle"
+        "blogCatThumb"
+        "blogCatExcerpt"
+        "blogCatMore";
+    justify-items: stretch;
+    align-content: stretch;
+    justify-content: start !important;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0 !important;
+    height: 100%;
+}
+
+.content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-shop__title {
+    grid-area: blogCatTitle;
+    align-self: stretch;
+    box-sizing: border-box;
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-shop__title a {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    width: 100%;
+    max-width: 100%;
+    line-height: 1.15;
+}
+
+.content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-image > a.image-link {
+    grid-area: blogCatThumb;
+    display: block;
+    width: 100%;
+    height: 240px;
+    min-height: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+}
+
+.content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-image > a.image-link img.image,
+.content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-image > a.image-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+}
+
+.content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-shop__desc {
+    grid-area: blogCatExcerpt;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    min-height: 0;
+    overflow: auto;
+}
+
+.content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-shop__more-wrap {
+    grid-area: blogCatMore;
+    margin-top: auto;
+    padding-top: 12px;
+}
+
+@media (max-width: 580px) {
+    .content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-image {
+        grid-template-rows: 120px 200px 1fr auto;
+    }
+
+    .content-page .category.shop .products.blog-cat-archive .blog-cat-post .product-item-image > a.image-link {
+        height: 200px;
     }
 }

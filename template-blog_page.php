@@ -29,48 +29,31 @@ get_header();
 						</div>
 						<div class="blog-wrap">
 							<?php
-							// $slug = get_queried_object();
-								$params = array(
-									'post_type' => 'post',
-									'cat' => 53,
-									'posts_per_page' => -1,
-									'orderby' => 'date',
-									'order' => 'DESC',
-								);
-								$the_query = new WP_Query( $params );
+								$blog_categories = easyline_get_blog_category_terms();
 
-							if( $the_query->have_posts() ) :
-								while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-									<section class="blog-page">
+								if (!empty($blog_categories)) :
+									foreach ($blog_categories as $blog_category) :
+										$category_link = get_category_link($blog_category->term_id);
+										$category_image = easyline_get_blog_category_image_url($blog_category->term_id, 'medium');
+										?>
+										<section class="blog-page blog-category-page">
+											<div class="blog-content blog-category-content">
+												<div class="blog-title">
+													<a href="<?php echo esc_url($category_link); ?>"><?php echo esc_html($blog_category->name); ?></a>
+												</div>
 
-										<div class="blog-content">
-
-											<div class="blog-title">
-												<a href="<?php echo get_the_permalink(); ?>"><?php echo get_the_title(); ?></a>
+												<a href="<?php echo esc_url($category_link); ?>" class="image-link">
+													<img src="<?php echo esc_url($category_image); ?>" class="image" alt="<?php echo esc_attr($blog_category->name); ?>" />
+												</a>
 											</div>
-
-											<a href="<?php echo get_the_permalink(); ?>" class="image-link">
-												<?php the_post_thumbnail('medium', ['class' => 'image']); ?>
-											</a>
-
-											<?php
-												$text = wp_strip_all_tags( get_the_content() );
-												$content = str_words_count($text, $counttext = 30, $sep = ' ');
-											?>
-											<div class="blog-desc"><?php echo $content ?></div>
-
-											<div class="blog-more">
-												<a href="<?php echo get_the_permalink($value->ID); ?>" class="more"><?php echo __('לפרטים נוספים>', 'easyline'); ?></a>
-											</div>
-
-										</div>
-
-									</section>
+										</section>
+										<?php
+									endforeach;
+								else :
+									?>
+									<div class="blog-empty"><?php echo esc_html__('לא נמצאו קטגוריות מאמרים להצגה.', 'easyline'); ?></div>
 									<?php
-								endwhile;
-							endif;
-
-							wp_reset_postdata();
+								endif;
 							?>
 						</div>
 						<div class="image-big">
