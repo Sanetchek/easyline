@@ -129,7 +129,9 @@ function theme_enqueue_assets() {
 	wp_enqueue_style('magnific', get_template_directory_uri() . '/css/magnific-popup.css');
 	wp_enqueue_style('slick', get_template_directory_uri() . '/css/slick.css');
 	wp_enqueue_style('slick-theme', get_template_directory_uri() . '/css/slick-theme.css');
-	wp_enqueue_style('style', get_template_directory_uri() . '/css/style.css');
+	$style_path = get_template_directory() . '/css/style.css';
+	$style_ver  = file_exists($style_path) ? (string) filemtime($style_path) : null;
+	wp_enqueue_style('style', get_template_directory_uri() . '/css/style.css', array(), $style_ver);
 	wp_enqueue_style('awesome', get_template_directory_uri() . '/css/font-awesome.min.css');
 
 	// Scripts
@@ -138,7 +140,9 @@ function theme_enqueue_assets() {
 	wp_enqueue_script('hammer', get_template_directory_uri() . '/js/hammer.min.js', array('jquery'), null, true);
 	wp_enqueue_script('mousewheel', get_template_directory_uri() . '/js/jquery.mousewheel.min.js', array('jquery'), null, true);
 	wp_enqueue_script('zoom2', get_template_directory_uri() . '/js/ap-image-zoom.js', array('jquery'), null, true);
-	wp_enqueue_script('commonjs', get_template_directory_uri() . '/js/common.js', array('jquery'), null, true);
+	$common_path = get_template_directory() . '/js/common.js';
+	$common_ver  = file_exists($common_path) ? (string) filemtime($common_path) : null;
+	wp_enqueue_script('commonjs', get_template_directory_uri() . '/js/common.js', array('jquery'), $common_ver, true);
 
 	// Google Maps (only for contact template)
 	if (is_page_template('template-contact.php')) {
@@ -191,3 +195,6 @@ require_once(get_template_directory() . '/inc/woo.php');
 
 /** Medical Post */
 require_once(get_template_directory() . '/inc/medical-post.php');
+
+/** Blog Categories */
+require_once(get_template_directory() . '/inc/blog-categories.php');

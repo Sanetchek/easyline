@@ -32,10 +32,9 @@ get_header(); ?>
 							<?php $image_id = get_post_thumbnail_id(); ?>
 							<?php if ($image_id) : ?>
 								<?php $alt = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: __('Image', 'easyline'); ?>
-								<?php echo liteimage($image_id, [
-									'thumb' => [0, 391],
-									'args' => ['alt' => $alt]
-								]); ?>
+								<?php
+								echo wp_get_attachment_image($image_id, [0, 391], false, ['alt' => $alt]);
+								?>
 							<?php endif; ?>
 						</div>
 					</div>

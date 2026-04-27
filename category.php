@@ -1,11 +1,4 @@
 <?php
-
-/**
-
- * Template Name: Shop
-
- */
-
 get_header();
 ?>
 
@@ -23,9 +16,20 @@ get_header();
 								</a>
 								>
 							</li>
+							<li class="breadcrumbs__item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+								<a href="<?php echo esc_url(easyline_get_blog_index_url()); ?>" class="breadcrumbs__link" itemscope="" itemtype="http://schema.org/Thing" itemprop="item">
+									<span class="breadcrumbs__name" itemprop="name">
+										<?php
+											$blog_page_id = easyline_get_blog_index_page_id();
+											echo esc_html($blog_page_id ? get_the_title($blog_page_id) : __('מאמרים בנושא תזונה', 'easyline'));
+										?>
+									</span>
+								</a>
+								>
+							</li>
 
 							<li class="current breadcrumbs__item">
-								<span><?php echo the_title(); ?></span>
+								<span><?php single_term_title(); ?></span>
 							</li>
 						</ul><!-- .breadcrumbs -->
 					</section>
@@ -35,7 +39,7 @@ get_header();
 							<h1 class="title"><?php single_term_title(); ?></h1>
 						</div>
 
-						<div class="products">
+						<div class="products blog-cat-archive">
 							<?php
 								$slug = get_queried_object();
 								$params = array(
@@ -56,17 +60,23 @@ get_header();
 
 								if( $recent_posts_array ){
 									foreach( $recent_posts_array as $value ){ ?>
-										<div class="product-item product-item-shop">
+										<div class="product-item product-item-shop blog-cat-post">
 											<div class="product-item-image">
 												<div class="product-item-shop__title">
 													<a href="<?php echo get_the_permalink($value->ID); ?>"><?php echo get_the_title($value->ID); ?></a>
 												</div>
-												<div class="product-item-shop__desc"><?php echo get_the_excerpt($value->ID); ?></div>
-												<a href="<?php echo get_the_permalink($value->ID); ?>" class="image-link">
-													<img src="<?php echo get_the_post_thumbnail($value->ID); ?>" class="image" alt="image" />
+												<?php
+												$thumb_url = get_the_post_thumbnail_url($value->ID, 'large');
+												if (!$thumb_url) {
+													$thumb_url = get_template_directory_uri() . '/img/shop.png';
+												}
+												?>
+												<a href="<?php echo esc_url(get_the_permalink($value->ID)); ?>" class="image-link">
+													<img src="<?php echo esc_url($thumb_url); ?>" class="image" alt="<?php echo esc_attr(get_the_title($value->ID)); ?>" />
 												</a>
-												<div>
-													<a href="<?php echo get_the_permalink($value->ID); ?>" class="more"><?php echo __('לפרטים נוספים> ', 'easyline'); ?></a>
+												<div class="product-item-shop__desc" dir="auto"><?php echo esc_html(easyline_get_post_list_excerpt_plain($value->ID)); ?></div>
+												<div class="product-item-shop__more-wrap">
+													<a href="<?php echo esc_url(get_the_permalink($value->ID)); ?>" class="more"><?php echo esc_html__('לפרטים נוספים', 'easyline'); ?></a>
 												</div>
 											</div>
 										</div>
