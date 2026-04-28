@@ -5,13 +5,26 @@
  *
  * @return array
  */
-function easyline_get_blog_category_terms() {
-	$terms = get_categories(array(
+function easyline_get_blog_category_terms($args = array()) {
+	$args = wp_parse_args($args, array(
+		'include' => array(),
+	));
+
+	$query_args = array(
 		'taxonomy'   => 'category',
 		'hide_empty' => false,
 		'orderby'    => 'name',
 		'order'      => 'ASC',
-	));
+	);
+
+	if (is_array($args['include']) && !empty($args['include'])) {
+		$include_ids = array_values(array_unique(array_filter(array_map('absint', $args['include']))));
+		if (!empty($include_ids)) {
+			$query_args['include'] = $include_ids;
+		}
+	}
+
+	$terms = get_categories($query_args);
 
 	if (is_wp_error($terms)) {
 		return array();
@@ -89,6 +102,47 @@ function easyline_get_post_list_excerpt_plain($post_id, $num_words = 40) {
 }
 
 /**
+ * Returns selected category IDs for the blog page template.
+ *
+ * @param int $page_id Page ID.
+ * @return int[]
+ */
+function easyline_get_blog_page_visible_category_ids($page_id = 0) {
+	$page_id = absint($page_id);
+	if (!$page_id || !function_exists('get_field')) {
+		return array();
+	}
+
+	$selected = get_field('blog_visible_categories', $page_id);
+	if (empty($selected)) {
+		return array();
+	}
+
+	if (!is_array($selected)) {
+		$selected = array($selected);
+	}
+
+	$ids = array();
+	foreach ($selected as $item) {
+		if (is_numeric($item)) {
+			$ids[] = absint($item);
+			continue;
+		}
+
+		if ($item instanceof WP_Term) {
+			$ids[] = absint($item->term_id);
+			continue;
+		}
+
+		if (is_array($item) && isset($item['term_id'])) {
+			$ids[] = absint($item['term_id']);
+		}
+	}
+
+	return array_values(array_unique(array_filter($ids)));
+}
+
+/**
  * Returns blog category image URL with fallback.
  *
  * @param int    $term_id Category term ID.
@@ -148,6 +202,49 @@ add_action('acf/init', function() {
 					'param' => 'taxonomy',
 					'operator' => '==',
 					'value' => 'category',
+				),
+			),
+		),
+		'position' => 'normal',
+		'style' => 'default',
+		'label_placement' => 'top',
+		'instruction_placement' => 'label',
+		'active' => true,
+		'show_in_rest' => 0,
+	));
+
+	acf_add_local_field_group(array(
+		'key' => 'group_easyline_blog_page_settings',
+		'title' => 'Blog Page Settings',
+		'fields' => array(
+			array(
+				'key' => 'field_easyline_blog_visible_categories',
+				'label' => 'Visible Categories',
+				'name' => 'blog_visible_categories',
+				'type' => 'taxonomy',
+				'instructions' => 'If empty, all categories are shown on the blog page template.',
+				'required' => 0,
+				'taxonomy' => 'category',
+				'field_type' => 'checkbox',
+				'allow_null' => 1,
+				'add_term' => 0,
+				'save_terms' => 0,
+				'load_terms' => 0,
+				'return_format' => 'id',
+				'multiple' => 0,
+			),
+		),
+		'location' => array(
+			array(
+				array(
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'page',
+				),
+				array(
+					'param' => 'page_template',
+					'operator' => '==',
+					'value' => 'template-blog_page.php',
 				),
 			),
 		),

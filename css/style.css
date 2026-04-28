@@ -2518,11 +2518,16 @@ body .mfp-figure::after {
 }
 
 .blog-category-content {
-    gap: 20px;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .blog-category-content .image-link {
     display: block;
+}
+
+.blog-category-content .blog-title {
+    margin-bottom: 0;
 }
 
 .blog-category-content .image {

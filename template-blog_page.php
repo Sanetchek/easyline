@@ -29,7 +29,11 @@ get_header();
 						</div>
 						<div class="blog-wrap">
 							<?php
-								$blog_categories = easyline_get_blog_category_terms();
+								$page_id = get_the_ID();
+								$selected_category_ids = easyline_get_blog_page_visible_category_ids($page_id);
+								$blog_categories = easyline_get_blog_category_terms(array(
+									'include' => $selected_category_ids,
+								));
 
 								if (!empty($blog_categories)) :
 									foreach ($blog_categories as $blog_category) :
