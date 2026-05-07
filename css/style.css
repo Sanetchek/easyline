@@ -1826,7 +1826,7 @@ h1 {
 
 .category {
     background: #d6eab4;
-    padding: 80px 20px;
+    padding: 120px 20px 80px;
 }
 
 .category .content {
@@ -2851,7 +2851,9 @@ body.ltr .shop .content .products .product-item-shop__desc {
 .shop .content .products .product-item-shop .product-item-shop__more-wrap {
     order: 4;
     text-align: center;
-    margin-top: 8px;
+    margin-top: auto;
+    flex-shrink: 0;
+    padding-top: 8px;
 }
 
 .shop .content .products .product-item-shop .more {

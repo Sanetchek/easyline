@@ -62,7 +62,7 @@ get_header();
 
 										 $image = wp_get_attachment_url( $thumbnail_id );  ?>
 											<a href="<?php echo get_category_link($cat->term_id); ?>" class="image-link"><img src="<?php echo $image; ?>" class="image" alt="image" /></a>
-											<div>
+											<div class="product-item-shop__more-wrap">
 												<a href="<?php echo get_category_link($cat->term_id); ?>" class="more"><?php echo __('לפרטים נוספים>', 'easyline'); ?></a>
 											</div>
 										</div>
