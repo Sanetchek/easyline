@@ -2604,6 +2604,11 @@ body .mfp-figure::after {
     order: 2;
 }
 
+.shop .content .products .product-item-shop .product-item-image > div:last-child {
+    order: 3;
+    margin-top: auto;
+}
+
 .shop .content .products .product-item-shop .product-item-image::after {
     content: "";
     display: none;

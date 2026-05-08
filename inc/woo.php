@@ -40,7 +40,7 @@ add_action('woocommerce_before_cart', 'set_default_chosen_shipping_method', 5);
  * @since 1.0.0
  */
 function theme_enqueue_scripts() {
-  if (function_exists('is_woocommerce')) {
+  if ( function_exists( 'is_woocommerce' ) && ( is_woocommerce() || is_cart() || is_checkout() || is_account_page() ) ) {
     wp_enqueue_script('wc-add-to-cart');
     wp_enqueue_script('wc-cart-fragments');
   }

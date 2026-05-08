@@ -159,50 +159,64 @@ $image_below_description_big_url = $get_acf_image_url($image_below_description_b
               <?php
                 $slug = $cat_id[0]->slug;
 
-                $params = array(
-                  'post_type' => 'product',
-                  'posts_per_page' => -1,
-                  'exclude' => $post_current,
-                  'orderby' => 'menu_order',
-                  'order' => 'ASC',
-                  'tax_query' => array(
-                    array(
-                      'taxonomy' => 'product_cat',
-                      'field' => 'slug',
-                      'terms' => $slug
+                $cache_key = 'easyline_related_products_' . md5( $slug . '_' . $post_current );
+                $recent_post_ids = get_transient( $cache_key );
+
+                if ( false === $recent_post_ids ) {
+                  $params = array(
+                    'post_type'              => 'product',
+                    'posts_per_page'         => 12,
+                    'post__not_in'           => array( $post_current ),
+                    'orderby'                => 'menu_order',
+                    'order'                  => 'ASC',
+                    'fields'                 => 'ids',
+                    'no_found_rows'          => true,
+                    'update_post_meta_cache' => false,
+                    'update_post_term_cache' => false,
+                    'tax_query'              => array(
+                      array(
+                        'taxonomy' => 'product_cat',
+                        'field'    => 'slug',
+                        'terms'    => $slug
+                      )
                     )
-                  )
-                );
-                $recent_posts_array = get_posts( $params );
-                if($recent_posts_array){
+                  );
+                  $recent_post_ids = get_posts( $params );
+                  set_transient( $cache_key, $recent_post_ids, HOUR_IN_SECONDS );
+                }
+
+                if ( $recent_post_ids ) {
               ?>
 
               <div class="content-top">
                   <div class="title-big"><?php _e('מוצרים שיענינו אתכם ', 'easyline') ?></div>
                 <div class="slider-shop products">
-                  <?php foreach ($recent_posts_array as $key => $value) {
-                      $_product = new WC_Product( $value->ID );
+                  <?php foreach ( $recent_post_ids as $related_product_id ) {
+                      $_product = wc_get_product( $related_product_id );
+                      if ( ! $_product ) {
+                        continue;
+                      }
                     ?>
                     <div class="product-item">
-                      <a href="<?php echo get_the_permalink($value->ID); ?>" class="product-item-image">
-                        <span class="title"><?php echo get_the_title($value->ID); ?><br/>
+                      <a href="<?php echo get_the_permalink( $related_product_id ); ?>" class="product-item-image">
+                        <span class="title"><?php echo get_the_title( $related_product_id ); ?><br/>
                           <span class="price-hide"><?php echo $_product->get_regular_price(); ?> ₪</span>
                         </span>
-                        <?php echo get_the_post_thumbnail($value->ID); ?>
+                        <?php echo get_the_post_thumbnail( $related_product_id ); ?>
                       </a>
                       <div class="button-wrap">
-                        <a href="<?php echo get_the_permalink($value->ID); ?>" class="product-btn"><?php echo __('לפרטים>', 'easyline'); ?></a>
+                        <a href="<?php echo get_the_permalink( $related_product_id ); ?>" class="product-btn"><?php echo __('לפרטים>', 'easyline'); ?></a>
 
                         <?php $show_wishlist_btn = false; ?>
                         <?php if ($show_wishlist_btn) : ?>
                           <div class="two-button">
-                            <a href="<?php echo esc_url( add_query_arg( 'add_to_wishlist', $value->ID ) )?>" rel="nofollow" data-product-id="<?php echo $value->ID ?>" data-product-type="<?php echo $product_type?>" class="<?php echo $link_classes ?>" >
+                            <a href="<?php echo esc_url( add_query_arg( 'add_to_wishlist', $related_product_id ) )?>" rel="nofollow" data-product-id="<?php echo $related_product_id ?>" data-product-type="<?php echo $product_type?>" class="<?php echo $link_classes ?>" >
                               <i class="fa fa-star" aria-hidden="true"></i>
                             </a>
                           </div>
                         <?php endif ?>
 
-                        <?php show_add_to_cart_form($value->ID, $_product->is_in_stock()); ?>
+                        <?php show_add_to_cart_form( $related_product_id, $_product->is_in_stock() ); ?>
                       </div>
                     </div>
                   <?php } ?>
