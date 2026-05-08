@@ -9,6 +9,27 @@ $post_current = $post->ID;
 $attachment_ids = $_product->get_gallery_attachment_ids();
 // variable usage
 global $product;
+$show_wishlist_btn = false;
+$get_acf_image_url = static function ($image_field): string {
+  if (is_array($image_field)) {
+    return isset($image_field['url']) ? (string) $image_field['url'] : '';
+  }
+
+  if (is_numeric($image_field)) {
+    $image_url = wp_get_attachment_image_url((int) $image_field, 'full');
+    return $image_url ? (string) $image_url : '';
+  }
+
+  if (is_string($image_field) && filter_var($image_field, FILTER_VALIDATE_URL)) {
+    return $image_field;
+  }
+
+  return '';
+};
+$image_below_description = get_field('image_below_description',$post->ID);
+$image_below_description_big = get_field('image_below_description_big',$post->ID);
+$image_below_description_url = $get_acf_image_url($image_below_description);
+$image_below_description_big_url = $get_acf_image_url($image_below_description_big);
 ?>
 
 <main class="content-page">
@@ -65,10 +86,10 @@ global $product;
                   </div>
 
                   <div class="info-product">
-                    <?php  if(get_field("image_below_description",$post->ID)["url"]){ ?>
+                    <?php if($image_below_description_url){ ?>
                     <div class="image">
-                      <a href="<?php echo get_field("image_below_description_big",$post->ID)["url"]; ?>" class="popup">
-                        <img src="<?php echo get_field("image_below_description",$post->ID)["url"]; ?>" alt="product" />
+                      <a href="<?php echo esc_url($image_below_description_big_url ?: $image_below_description_url); ?>" class="popup">
+                        <img src="<?php echo esc_url($image_below_description_url); ?>" alt="product" />
                       </a>
                     </div>
                   <?php } ?>

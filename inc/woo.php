@@ -10,14 +10,23 @@
  * @since 1.0.0
  */
 function set_default_chosen_shipping_method(){
-  if(count(WC()->session->get('shipping_for_package_0')['rates']) > 0){
-    foreach(WC()->session->get('shipping_for_package_0')['rates'] as $rate_id =>$rate)
-      if($rate->method_id == 'free_shipping'){
+  $default_rate_id = null;
+  $shipping_package = WC()->session->get('shipping_for_package_0');
+  $rates = (is_array($shipping_package) && isset($shipping_package['rates']) && is_array($shipping_package['rates']))
+    ? $shipping_package['rates']
+    : [];
+
+  if (count($rates) > 0) {
+    foreach ($rates as $rate_id => $rate) {
+      if ($rate->method_id == 'free_shipping') {
         $default_rate_id = array($rate_id);
         break;
       }
+    }
 
-    WC()->session->set('chosen_shipping_methods', $default_rate_id);
+    if ($default_rate_id !== null) {
+      WC()->session->set('chosen_shipping_methods', $default_rate_id);
+    }
   }
 }
 add_action('woocommerce_before_cart', 'set_default_chosen_shipping_method', 5);
