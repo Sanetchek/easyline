@@ -1,7 +1,5 @@
-<?php global $woocommerce; ?>
-
 <div class="cart">
-  <a href="<?php echo $woocommerce->cart->get_cart_url(); ?>" class="cart-icon">
+  <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="cart-icon">
     <img src="<?php echo get_template_directory_uri(); ?>/img/cart.png" alt="cart" />
     <span class="cart-count" id="header-cart-count">
       <?php echo WC()->cart->get_cart_contents_count(); ?>

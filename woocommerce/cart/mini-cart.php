@@ -106,8 +106,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 		</ul>
 	</div>
 	<div class="basket-right-footer">
-		<?php global $woocommerce; ?>
-		<a href="<?php echo $woocommerce->cart->get_cart_url(); ?>" class="product-btn"><?php _e('לקופה ', 'easyline') ?></a>
+		<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="product-btn"><?php _e('לקופה ', 'easyline') ?></a>
 	</div>
 
 <?php else : ?>

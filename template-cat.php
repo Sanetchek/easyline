@@ -58,7 +58,7 @@ get_header();
 
 											<div class="product-item-shop__desc"><?php  echo category_description($cat->term_id); ?></div>
 
-										 <?php $thumbnail_id = get_woocommerce_term_meta( $cat->term_id, 'thumbnail_id', true );
+										 <?php $thumbnail_id = get_term_meta( $cat->term_id, 'thumbnail_id', true );
 
 										 $image = wp_get_attachment_url( $thumbnail_id );  ?>
 											<a href="<?php echo get_category_link($cat->term_id); ?>" class="image-link"><img src="<?php echo $image; ?>" class="image" alt="image" /></a>
