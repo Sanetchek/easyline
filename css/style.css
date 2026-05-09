@@ -4586,6 +4586,15 @@ button[name="save_account_details"] {
     }
 }
 
+@media (max-width: 768px) {
+    .header .phone {
+        margin-left: 10px;
+        font-size: 16px;
+        display: inline-block;
+        width: 100%;
+    }
+}
+
 @media (max-width: 767px) {
     .ltr .content-page .about-page {
         padding-top: 30px;

@@ -5,20 +5,11 @@ $med_categories = get_the_terms(get_the_ID(), 'med_category');
 $selected_category = null;
 
 if ($med_categories && !is_wp_error($med_categories)) {
-	error_log('Post ID: ' . get_the_ID());
-	error_log('Categories for this post:');
-	foreach ($med_categories as $category) {
-		error_log('- ' . $category->name . ' (ID: ' . $category->term_id . ', Slug: ' . $category->slug . ')');
-	}
-}
-
-if ($med_categories && !is_wp_error($med_categories)) {
 	if (isset($_GET['cat'])) {
 		$from_category_id = intval($_GET['cat']);
 		foreach ($med_categories as $category) {
 			if ($category->term_id === $from_category_id) {
 				$selected_category = $category;
-				error_log('Selected category by URL parameter: ' . $category->name . ' (ID: ' . $category->term_id . ')');
 				set_transient('med_product_from_category_' . get_the_ID(), $category->term_id, 24 * HOUR_IN_SECONDS);
 				break;
 			}
@@ -31,7 +22,6 @@ if ($med_categories && !is_wp_error($med_categories)) {
 			foreach ($med_categories as $category) {
 				if ($category->term_id === intval($transient_category_id)) {
 					$selected_category = $category;
-					error_log('Selected category by transient: ' . $category->name . ' (ID: ' . $category->term_id . ')');
 					break;
 				}
 			}
@@ -41,13 +31,10 @@ if ($med_categories && !is_wp_error($med_categories)) {
 	if (!$selected_category) {
 		$referrer = wp_get_referer();
 		if ($referrer) {
-			error_log('Referrer: ' . $referrer);
 			foreach ($med_categories as $category) {
 				$category_url = get_term_link($category);
-				error_log('Checking category: ' . $category->name . ' (ID: ' . $category->term_id . ') URL: ' . $category_url);
 				if ($category_url && strpos($referrer, $category_url) !== false) {
 					$selected_category = $category;
-					error_log('Selected category by referrer: ' . $category->name . ' (ID: ' . $category->term_id . ')');
 					// Сохраняем в transient
 					set_transient('med_product_from_category_' . get_the_ID(), $category->term_id, 24 * HOUR_IN_SECONDS);
 					break;
@@ -58,7 +45,6 @@ if ($med_categories && !is_wp_error($med_categories)) {
 
 	if (!$selected_category) {
 		$selected_category = $med_categories[0];
-		error_log('Using first category: ' . $selected_category->name . ' (ID: ' . $selected_category->term_id . ')');
 	}
 }
 
