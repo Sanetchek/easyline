@@ -8,6 +8,7 @@ declare(strict_types=1);
 $themeRoot = dirname(__DIR__, 2);
 $required = [
     'SearchFormTest.php',
+    'ExcerptSanitizerTest.php',
 ];
 
 $failed = 0;

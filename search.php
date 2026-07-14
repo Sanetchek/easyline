@@ -14,10 +14,13 @@ get_header(); ?>
 							<div id="loop" class="row bg_white" >
 							<?php    if (have_posts()) : ?>
 							<?php  while(have_posts()) : the_post(); ?>
+								<?php $search_excerpt = easyline_get_post_list_excerpt_plain(get_the_ID()); ?>
 								<div class="post">
 									 <div class="search">
 									 <h3><a href="<?php  the_permalink() ?>"><?php the_title(); ?></a></h3>
-									 <p><?php the_excerpt(); ?></p>
+									 <?php if ($search_excerpt !== '') : ?>
+									 <p><?php echo esc_html($search_excerpt); ?></p>
+									 <?php endif; ?>
 								</div>
 								</div>
 								<?php endwhile; ?>

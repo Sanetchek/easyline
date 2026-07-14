@@ -71,6 +71,34 @@ function easyline_get_blog_index_url() {
 }
 
 /**
+ * Strip legacy language markers and list-card noise from plain excerpt text.
+ *
+ * @param string $text Raw excerpt or content text.
+ * @return string
+ */
+function easyline_sanitize_post_list_excerpt_text($text) {
+	$text = (string) $text;
+
+	// qTranslate-style language markers (e.g. "[:en]text[:]")
+	$text = preg_replace('/\[:[a-z]{2}\]/iu', '', $text);
+	$text = preg_replace('/\[:\]/iu', '', $text);
+	// WPML-style language markers inside content (e.g. "text[en:]more")
+	$text = preg_replace('/\[[a-z]{2}:\]/iu', '', $text);
+	// Literal bracket ellipsis from imports / old templates
+	$text = preg_replace('/\s*\[\.\.\.\]\s*/u', ' ', $text);
+	$text = str_replace(array('[...]', '[…]'), '', $text);
+	$text = preg_replace('/\s*(\.{3,}|…)\s*$/u', '', $text);
+	$text = preg_replace('/\s{2,}/u', ' ', $text);
+	$text = trim($text);
+
+	if ($text !== '' && preg_match('/Welcome to WordPress\. This is your first post/i', $text)) {
+		return '';
+	}
+
+	return $text;
+}
+
+/**
  * Plain-text excerpt for cards: no automatic "…" / "..." suffix.
  *
  * @param int $post_id Post ID.
@@ -90,15 +118,7 @@ function easyline_get_post_list_excerpt_plain($post_id, $num_words = 40) {
 		$text = wp_trim_words($text, (int) $num_words, '');
 	}
 
-	// WPML-style language markers inside content (e.g. "text[en:]more")
-	$text = preg_replace('/\[[a-z]{2}:\]/iu', '', $text);
-	// Literal bracket ellipsis from imports / old templates
-	$text = preg_replace('/\s*\[\.\.\.\]\s*/u', ' ', $text);
-	$text = str_replace(array('[...]', '[…]'), '', $text);
-	$text = preg_replace('/\s*(\.{3,}|…)\s*$/u', '', $text);
-	$text = preg_replace('/\s{2,}/u', ' ', $text);
-
-	return trim($text);
+	return easyline_sanitize_post_list_excerpt_text($text);
 }
 
 /**
