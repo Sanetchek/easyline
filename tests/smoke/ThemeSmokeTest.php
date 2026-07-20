@@ -9,6 +9,7 @@ $themeRoot = dirname(__DIR__, 2);
 $required = [
     'SearchFormTest.php',
     'ExcerptSanitizerTest.php',
+    'MuscleHealthPerformanceTest.php',
 ];
 
 $failed = 0;

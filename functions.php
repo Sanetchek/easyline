@@ -149,6 +149,17 @@ function theme_enqueue_assets() {
 		wp_enqueue_script('google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDrAZjN-RkZB0XRSnjrxvmkX7v3r96n8vk', array(), null, true);
 	}
 
+	if (is_page_template('template-muscle-health-performance.php')) {
+		$mhp_css_path = get_template_directory() . '/css/pages/muscle-health-performance.css';
+		$mhp_css_ver  = file_exists($mhp_css_path) ? (string) filemtime($mhp_css_path) : null;
+		wp_enqueue_style(
+			'muscle-health-performance',
+			get_template_directory_uri() . '/css/pages/muscle-health-performance.css',
+			array('style'),
+			$mhp_css_ver
+		);
+	}
+
 	// Dequeue WP block styles
 	wp_dequeue_style('wp-block-library');
 	wp_dequeue_style('wp-block-library-rtl-css');
@@ -198,3 +209,6 @@ require_once(get_template_directory() . '/inc/medical-post.php');
 
 /** Blog Categories */
 require_once(get_template_directory() . '/inc/blog-categories.php');
+
+/** Muscle Health & Performance */
+require_once(get_template_directory() . '/inc/muscle-health-performance.php');

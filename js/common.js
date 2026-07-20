@@ -324,19 +324,38 @@ jQuery(document).ready(function($){
 		e.preventDefault();
 		$.magnificPopup.close();
 	});
-	$(".faq-list-item__title").click(function(){
-		$(this).next().fadeToggle();
-		$(this).find(".slide-icon").toggleClass("active");
-		$(this).find(".slide-icon").find("span").each(function(){
-			if($(this).hasClass("hide")){
+	$(".faq-list-item__title").on("click", function (e) {
+		e.preventDefault();
+		var $trigger = $(this);
+		var $content = $trigger.next(".faq-list-item__content");
+		var $icon = $trigger.find(".slide-icon");
+		var isExpanded = $trigger.attr("aria-expanded") === "true";
+
+		if ($content.length) {
+			if ($trigger.is("button") || typeof $trigger.attr("aria-expanded") !== "undefined") {
+				$trigger.attr("aria-expanded", isExpanded ? "false" : "true");
+				if (isExpanded) {
+					$content.attr("hidden", true).removeClass("is-open").stop(true, true).slideUp(200);
+				} else {
+					$content.removeAttr("hidden").addClass("is-open").stop(true, true).hide().slideDown(200);
+				}
+			} else {
+				$content.fadeToggle();
+			}
+		}
+
+		$icon.toggleClass("active");
+		$icon.find("span").each(function () {
+			if ($(this).hasClass("hide")) {
 				$(this).fadeIn();
 				$(this).removeClass("hide");
-			} else{
+			} else {
 				$(this).hide();
 				$(this).addClass("hide");
 			}
 		});
 	});
+
 	resize_func();
 	jQuery( "body" ).on("click",".ajax-update-cart a",function(e){
 		var thiss = $(this);
