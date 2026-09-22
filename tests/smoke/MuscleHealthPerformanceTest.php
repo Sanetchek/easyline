@@ -73,6 +73,14 @@ $assertContains($acf, "easyline_mhp_section_tab_fields('audience'", 'Audience ta
 $assertContains($acf, "easyline_mhp_section_tab_fields('solutions'", 'Solutions tab must be registered.');
 $assertContains($acf, "easyline_mhp_section_tab_fields('quality'", 'Quality tab must be registered.');
 $assertContains($acf, "easyline_mhp_section_tab_fields('knowledge'", 'Knowledge tab must be registered.');
+$assertContains($acf, "'name'          => 'mhp_knowledge_posts'", 'Knowledge posts relationship field must be registered.');
+$assertTrue(
+	(bool) preg_match(
+		"/'name'\\s*=>\\s*'mhp_knowledge_posts'[\\s\\S]{0,400}?'max'\\s*=>\\s*0,/",
+		$acf
+	),
+	'Knowledge posts relationship must have no max selection limit (max => 0).'
+);
 $assertContains($acf, "easyline_mhp_section_tab_fields('faq'", 'FAQ tab must be registered.');
 $assertContains($acf, "'type'  => 'tab'", 'ACF tab field type must be registered.');
 

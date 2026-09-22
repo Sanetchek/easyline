@@ -848,7 +848,7 @@ function easyline_mhp_register_acf_fields() {
 		'filters'       => array('search', 'taxonomy'),
 		'return_format' => 'id',
 		'min'           => 0,
-		'max'           => 6,
+		'max'           => 0,
 	);
 	$fields[] = array(
 		'key'   => 'field_easyline_mhp_knowledge_read_more',
