@@ -4,7 +4,7 @@ get_header();
 
 $slug = get_queried_object();
 $cat_id = get_the_terms( $post->ID, 'product_cat');
-$_product = new WC_Product( $post->ID );
+$_product = wc_get_product( $post->ID );
 $post_current = $post->ID;
 $attachment_ids = $_product->get_gallery_attachment_ids();
 // variable usage

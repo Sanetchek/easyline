@@ -33,7 +33,12 @@
 
               <?php get_template_part( 'template-parts/header/main-menu' ); ?>
 
-              <?php get_template_part( 'template-parts/header/cart' ); ?>
+              <?php
+              // Hide header cart icon on cart/checkout — user is already in the flow.
+              if ( ! function_exists( 'is_cart' ) || ( ! is_cart() && ! is_checkout() ) ) {
+                get_template_part( 'template-parts/header/cart' );
+              }
+              ?>
 
               <div class="language dropdown">
                 <?php	do_action('wpml_add_language_selector'); ?>

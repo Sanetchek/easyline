@@ -41,46 +41,67 @@ get_header();
 
 						<div class="products blog-cat-archive">
 							<?php
-								$slug = get_queried_object();
-								$params = array(
-									'post_type' => 'post',
-									'posts_per_page' => -1,
-									'orderby' => 'menu_order',
-									'order' => 'ASC',
-									'tax_query' => array(
-										array(
-											'taxonomy' => 'category',
-											'field' => 'slug',
-											'terms' => $slug->slug
-										)
+								$slug  = get_queried_object();
+								$paged = max(1, (int) get_query_var('paged'));
+								$cat_query = new WP_Query(
+									array(
+										'post_type'      => 'post',
+										'post_status'    => 'publish',
+										'posts_per_page' => 12,
+										'paged'          => $paged,
+										'orderby'        => 'menu_order',
+										'order'          => 'ASC',
+										'tax_query'      => array(
+											array(
+												'taxonomy' => 'category',
+												'field'    => 'slug',
+												'terms'    => isset($slug->slug) ? $slug->slug : '',
+											),
+										),
 									)
 								);
 
-								$recent_posts_array = get_posts( $params );
-
-								if( $recent_posts_array ){
-									foreach( $recent_posts_array as $value ){ ?>
+								if ($cat_query->have_posts()) {
+									while ($cat_query->have_posts()) {
+										$cat_query->the_post();
+										$value_id = get_the_ID();
+										?>
 										<div class="product-item product-item-shop blog-cat-post">
 											<div class="product-item-image">
 												<div class="product-item-shop__title">
-													<a href="<?php echo get_the_permalink($value->ID); ?>"><?php echo get_the_title($value->ID); ?></a>
+													<a href="<?php echo esc_url(get_permalink($value_id)); ?>"><?php echo esc_html(get_the_title($value_id)); ?></a>
 												</div>
 												<?php
-												$thumb_url = get_the_post_thumbnail_url($value->ID, 'large');
+												$thumb_url = get_the_post_thumbnail_url($value_id, 'large');
 												if (!$thumb_url) {
 													$thumb_url = get_template_directory_uri() . '/img/shop.png';
 												}
 												?>
-												<a href="<?php echo esc_url(get_the_permalink($value->ID)); ?>" class="image-link">
-													<img src="<?php echo esc_url($thumb_url); ?>" class="image" alt="<?php echo esc_attr(get_the_title($value->ID)); ?>" />
+												<a href="<?php echo esc_url(get_permalink($value_id)); ?>" class="image-link">
+													<img src="<?php echo esc_url($thumb_url); ?>" class="image" alt="<?php echo esc_attr(get_the_title($value_id)); ?>" />
 												</a>
-												<div class="product-item-shop__desc" dir="auto"><?php echo esc_html(easyline_get_post_list_excerpt_plain($value->ID)); ?></div>
+												<div class="product-item-shop__desc" dir="auto"><?php echo esc_html(easyline_get_post_list_excerpt_plain($value_id)); ?></div>
 												<div class="product-item-shop__more-wrap">
-													<a href="<?php echo esc_url(get_the_permalink($value->ID)); ?>" class="more"><?php echo esc_html__('לפרטים נוספים', 'easyline'); ?></a>
+													<a href="<?php echo esc_url(get_permalink($value_id)); ?>" class="more"><?php echo esc_html__('לפרטים נוספים', 'easyline'); ?></a>
 												</div>
 											</div>
 										</div>
 										<?php
+									}
+									wp_reset_postdata();
+
+									if ($cat_query->max_num_pages > 1) {
+										echo '<nav class="pagination">';
+										echo wp_kses_post(
+											paginate_links(
+												array(
+													'total'   => (int) $cat_query->max_num_pages,
+													'current' => $paged,
+													'type'    => 'list',
+												)
+											)
+										);
+										echo '</nav>';
 									}
 								}
 							?>

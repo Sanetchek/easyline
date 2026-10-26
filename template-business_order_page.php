@@ -8,8 +8,18 @@ get_header();
 $curent_lang = get_locale() == 'he_IL' ? heb_fields() : eng_fields();
 $data = get_fields();
 
-global $wpdb;
-$cities = $wpdb->get_results("SELECT city_name FROM " . $wpdb->prefix . "israel_cities order by city_name", ARRAY_A);
+$cities = get_transient('easyline_israel_cities');
+if (!is_array($cities)) {
+	global $wpdb;
+	$cities = $wpdb->get_results(
+		'SELECT city_name FROM ' . $wpdb->prefix . 'israel_cities ORDER BY city_name',
+		ARRAY_A
+	);
+	if (!is_array($cities)) {
+		$cities = array();
+	}
+	set_transient('easyline_israel_cities', $cities, DAY_IN_SECONDS);
+}
 
 ?>
 
@@ -235,6 +245,7 @@ jQuery(document).ready(($) => {
       url: admin_ajax.url,
       data: {
         action: 'business_order',
+        nonce: admin_ajax.nonce,
         data: data
       },
       beforeSend: function() {

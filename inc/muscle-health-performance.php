@@ -228,20 +228,20 @@ function easyline_mhp_default_product_ids() {
 		return $product_ids;
 	}
 
-	$product_ids = array();
-	$products    = get_posts(array(
-		'post_type'      => 'product',
-		'post_status'    => 'publish',
-		'posts_per_page' => -1,
-		'orderby'        => 'menu_order title',
-		'order'          => 'ASC',
-		'fields'         => 'ids',
-	));
+	global $wpdb;
 
-	foreach ($products as $product_id) {
-		$comparable_title = strtolower((string) preg_replace('/[^a-z0-9]/i', '', get_the_title($product_id)));
-		if (in_array($comparable_title, array('easywhey', 'easywhay', 'promuss'), true)) {
-			$product_ids[] = (int) $product_id;
+	$product_ids = array();
+	$titles      = array('EasyWhey', 'EasyWhay', 'ProMuss');
+
+	foreach ($titles as $title) {
+		$found_id = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT ID FROM {$wpdb->posts} WHERE post_type = 'product' AND post_status = 'publish' AND post_title = %s LIMIT 1",
+				$title
+			)
+		);
+		if ($found_id > 0) {
+			$product_ids[] = $found_id;
 		}
 	}
 

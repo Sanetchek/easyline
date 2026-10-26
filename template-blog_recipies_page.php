@@ -29,38 +29,69 @@ get_header();
 						</div>
 						<div class="products myRecipyProd">
 							<?php
-							$params = array(
-								'post_type' => 'post',
-								'category' => 300,
-								'posts_per_page' => -1,
-								'orderby' => 'date',
-								'order' => 'DESC',
+							$paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
+							$recipes_query = new WP_Query(
+								array(
+									'post_type'      => 'post',
+									'post_status'    => 'publish',
+									'cat'            => 300,
+									'posts_per_page' => 12,
+									'paged'          => $paged,
+									'orderby'        => 'date',
+									'order'          => 'DESC',
+								)
 							);
-							$recent_posts_array = get_posts( $params );
-							if( $recent_posts_array ){
-								foreach( $recent_posts_array as $value ){ ?>
+							if ($recipes_query->have_posts()) {
+								while ($recipes_query->have_posts()) {
+									$recipes_query->the_post();
+									$value_id = get_the_ID();
+									?>
 									<div class="product-item product-item-shop blog-page">
 										<div class="product-item-image">
 											<div class="product-item-shop__title">
-												<a href="<?php echo get_the_permalink($value->ID); ?>"><?php echo get_the_title($value->ID); ?></a>
+												<a href="<?php echo esc_url(get_permalink($value_id)); ?>"><?php echo esc_html(get_the_title($value_id)); ?></a>
 											</div>
-											<a href="<?php echo get_the_permalink($value->ID); ?>" class="image-link">
-
+											<a href="<?php echo esc_url(get_permalink($value_id)); ?>" class="image-link">
 												<?php
-													$img_id = get_post_thumbnail_id($value->ID);
-													if ($img_id) {
-														echo wp_get_attachment_image($img_id, 'medium', false, ['alt' => get_the_title(), 'class' => 'image', 'loading' => 'lazy', 'decoding' => 'async']);
-													} else {
-														echo '<img src="' . get_template_directory_uri() . '/img/product.png" class="image" alt="' . get_the_title() . '" />';
-													}
-													?>
+												$img_id = get_post_thumbnail_id($value_id);
+												if ($img_id) {
+													echo wp_get_attachment_image(
+														$img_id,
+														'medium',
+														false,
+														array(
+															'alt'      => get_the_title($value_id),
+															'class'    => 'image',
+															'loading'  => 'lazy',
+															'decoding' => 'async',
+														)
+													);
+												} else {
+													echo '<img src="' . esc_url(get_template_directory_uri() . '/img/product.png') . '" class="image" alt="' . esc_attr(get_the_title($value_id)) . '" />';
+												}
+												?>
 											</a>
 											<div>
-												<a href="<?php echo get_the_permalink($value->ID); ?>" class="myRecipyBtn"><?php echo __('לפרטים נוספים>', 'easyline'); ?></a>
+												<a href="<?php echo esc_url(get_permalink($value_id)); ?>" class="myRecipyBtn"><?php echo esc_html__('לפרטים נוספים>', 'easyline'); ?></a>
 											</div>
 										</div>
 									</div>
 									<?php
+								}
+								wp_reset_postdata();
+
+								if ($recipes_query->max_num_pages > 1) {
+									echo '<nav class="pagination">';
+									echo wp_kses_post(
+										paginate_links(
+											array(
+												'total'   => (int) $recipes_query->max_num_pages,
+												'current' => $paged,
+												'type'    => 'list',
+											)
+										)
+									);
+									echo '</nav>';
 								}
 							}
 							?>

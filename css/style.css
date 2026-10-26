@@ -3242,10 +3242,19 @@ body.ltr .shop .content .products .product-item-shop__desc {
     text-align: right !important;
 }
 
+.category .woocommerce table.shop_table.cart td.actions .button,
+.category .woocommerce table.shop_table.cart td.actions a.return {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 0 0 8px;
+}
+
 body .woocommerce table.shop_table td a.return {
-    display: inline-block;
-    vertical-align: top;
-    margin-left: 5px;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 8px;
     color: #e2001a;
     background-color: white !important;
     border: 2px solid #e2001a;
@@ -3256,7 +3265,9 @@ body .woocommerce table.shop_table td a.return {
     float: right;
     display: block;
     width: 100%;
+    max-width: 280px;
     padding-top: 20px;
+    clear: both;
 }
 
 .category .woocommerce .coupon button[name="apply_coupon"] {
@@ -3272,7 +3283,7 @@ body .woocommerce table.shop_table td a.return {
 }
 
 .coupon input {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     height: 40px;
     padding-right: 10px;
     border: 1px solid rgba(0, 0, 0, .1);
@@ -3281,6 +3292,10 @@ body .woocommerce table.shop_table td a.return {
 .coupon * {
     display: block;
     width: 100%;
+}
+
+.category .woocommerce table.shop_table.cart td {
+    vertical-align: middle;
 }
 
 .category .woocommerce .cart-collaterals .cart_totals h2 {
@@ -3337,6 +3352,46 @@ button[name="save_account_details"] {
 .quantity a {
     display: inline-block;
     vertical-align: middle;
+}
+
+.woocommerce-cart .quantity,
+.category .woocommerce table.shop_table.cart .quantity {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 2px;
+    margin: 0;
+}
+
+.woocommerce-cart .quantity a,
+.category .woocommerce table.shop_table.cart .quantity a {
+    flex-shrink: 0;
+    line-height: 0;
+    width: 18px;
+    height: 18px;
+}
+
+.woocommerce-cart .quantity a img,
+.category .woocommerce table.shop_table.cart .quantity a img {
+    width: 18px;
+    height: 18px;
+    max-width: 18px;
+    display: block;
+}
+
+.woocommerce-cart .quantity input,
+.category .woocommerce table.shop_table.cart .quantity input {
+    width: 36px !important;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 28px;
+}
+
+.category .woocommerce table.shop_table.cart td.product-quantity {
+    white-space: nowrap;
+    width: 1%;
 }
 
 .quantity input::-webkit-outer-spin-button,
@@ -4153,6 +4208,17 @@ button[name="save_account_details"] {
         width: 100%;
     }
 
+    .woocommerce-cart .quantity,
+    .category .woocommerce table.shop_table.cart .quantity {
+        display: inline-flex;
+        flex-wrap: nowrap;
+    }
+
+    .coupon {
+        max-width: 100%;
+        float: none;
+    }
+
     .myRecipyProd,
     .products {
         grid-template-columns: repeat(2, 1fr);
@@ -4800,6 +4866,17 @@ button[name="save_account_details"] {
         margin-bottom: 10px;
         text-align: center;
         height: 36px;
+    }
+
+    .coupon {
+        max-width: 100%;
+        float: none;
+        padding-left: 0;
+    }
+
+    .category .woocommerce table.shop_table.cart td.actions .button,
+    .category .woocommerce table.shop_table.cart td.actions a.return {
+        margin: 0 0 8px 0;
     }
 
     .category .content {

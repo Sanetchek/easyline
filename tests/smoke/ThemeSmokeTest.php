@@ -10,6 +10,7 @@ $required = [
     'SearchFormTest.php',
     'ExcerptSanitizerTest.php',
     'MuscleHealthPerformanceTest.php',
+    'PerformanceFixesTest.php',
 ];
 
 $failed = 0;

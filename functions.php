@@ -137,12 +137,17 @@ function theme_enqueue_assets() {
 	// Scripts
 	wp_enqueue_script('app', get_template_directory_uri() . '/js/app.js', array('jquery'), null, true);
 	wp_enqueue_script('magnific', get_template_directory_uri() . '/js/jquery.magnific-popup.min.js', array('jquery'), null, true);
-	wp_enqueue_script('hammer', get_template_directory_uri() . '/js/hammer.min.js', array('jquery'), null, true);
-	wp_enqueue_script('mousewheel', get_template_directory_uri() . '/js/jquery.mousewheel.min.js', array('jquery'), null, true);
-	wp_enqueue_script('zoom2', get_template_directory_uri() . '/js/ap-image-zoom.js', array('jquery'), null, true);
+
+	$needs_zoom = is_singular('product') || is_page_template('template-products.php');
+	if ($needs_zoom) {
+		wp_enqueue_script('hammer', get_template_directory_uri() . '/js/hammer.min.js', array('jquery'), null, true);
+		wp_enqueue_script('mousewheel', get_template_directory_uri() . '/js/jquery.mousewheel.min.js', array('jquery'), null, true);
+		wp_enqueue_script('zoom2', get_template_directory_uri() . '/js/ap-image-zoom.js', array('jquery'), null, true);
+	}
+
 	$common_path = get_template_directory() . '/js/common.js';
 	$common_ver  = file_exists($common_path) ? (string) filemtime($common_path) : null;
-	wp_enqueue_script('commonjs', get_template_directory_uri() . '/js/common.js', array('jquery'), $common_ver, true);
+	wp_enqueue_script('commonjs', get_template_directory_uri() . '/js/common.js', array('jquery', 'app'), $common_ver, true);
 
 	// Google Maps (only for contact template)
 	if (is_page_template('template-contact.php')) {
@@ -164,10 +169,12 @@ function theme_enqueue_assets() {
 	wp_dequeue_style('wp-block-library');
 	wp_dequeue_style('wp-block-library-rtl-css');
 
-	// AJAX endpoint
-  	wp_localize_script( 'app', 'admin_ajax', array(
-		'url' => admin_url('admin-ajax.php'),
-	));
+	$ajax_data = array(
+		'url'   => admin_url('admin-ajax.php'),
+		'nonce' => wp_create_nonce('easyline_ajax'),
+	);
+	wp_localize_script('app', 'admin_ajax', $ajax_data);
+	wp_localize_script('commonjs', 'easylineAjax', $ajax_data);
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_assets');
 

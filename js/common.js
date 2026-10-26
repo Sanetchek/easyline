@@ -79,6 +79,9 @@ jQuery(document).ready(function($){
 	});
 
 	function initImage() {
+		if (typeof $.fn.apImageZoom !== 'function') {
+			return;
+		}
 		$('.mfp-img').apImageZoom({
 			// autoCenter: false,
 				// loadingAnimation: 'throbber',
@@ -90,16 +93,18 @@ jQuery(document).ready(function($){
 			maxZoom: 2.0
 		});
 	};
-	$('#popup_img2').apImageZoom({
-		// autoCenter: false,
-		// loadingAnimation: 'throbber',
-		// maxZoom: false,
-		// hammerPluginEnabled: false,
-		// hardwareAcceleration: false,
-		maxZoom: 2.0,
-		minZoom: 'contain',
-		cssWrapperClass: 'custom-wrapper-class'
-	});
+	if (typeof $.fn.apImageZoom === 'function' && $('#popup_img2').length) {
+		$('#popup_img2').apImageZoom({
+			// autoCenter: false,
+			// loadingAnimation: 'throbber',
+			// maxZoom: false,
+			// hammerPluginEnabled: false,
+			// hardwareAcceleration: false,
+			maxZoom: 2.0,
+			minZoom: 'contain',
+			cssWrapperClass: 'custom-wrapper-class'
+		});
+	}
 
 	var lang_separate = $(".language .language-chooser li").eq(1).find("a").find("span");
 	lang_separate.text(' / '+lang_separate.text());
@@ -172,10 +177,12 @@ jQuery(document).ready(function($){
 			//errorPlacement: function(error, element){},
 			submitHandler: function submitHandler(form) {
 			var thisForm = $(i);
+			var ajaxUrl = (typeof easylineAjax !== 'undefined' && easylineAjax.url) ? easylineAjax.url : '/wp-admin/admin-ajax.php';
+			var ajaxNonce = (typeof easylineAjax !== 'undefined' && easylineAjax.nonce) ? easylineAjax.nonce : '';
 			$.ajax({
 				type: 'POST',
-				url: "/wp-admin/admin-ajax.php",
-				data: 'action=zakaz&' + thisForm.serialize(),
+				url: ajaxUrl,
+				data: 'action=zakaz&nonce=' + encodeURIComponent(ajaxNonce) + '&' + thisForm.serialize(),
 				success: function success(data) {
 					$(thisForm).trigger("reset");
 					$(thisForm).addClass('success');
@@ -357,23 +364,40 @@ jQuery(document).ready(function($){
 	});
 
 	resize_func();
+	function easylineApplyFragments(fragments) {
+		if (!fragments) {
+			return;
+		}
+		jQuery.each(fragments, function (key, value) {
+			jQuery(key).replaceWith(value);
+		});
+	}
+
 	jQuery( "body" ).on("click",".ajax-update-cart a",function(e){
-		var thiss = $(this);
 		e.preventDefault();
 		var count = $(this).parent().find("input");
+		var new_count = +count.val();
 		if ($(this).hasClass("plus")){
-			var new_count = +count.val() + 1;
+			new_count = +count.val() + 1;
 			count.val(new_count);
 		} else {
 			if (count.val() > 1) {
-				var new_count = +count.val() - 1;
+				new_count = +count.val() - 1;
 				count.val(new_count);
 			}
 		}
-			$.post('/wp-admin/admin-ajax.php','action=set_quantity_custom&new_count='+ new_count + '&id='+ count.attr('data-id'),function(data){
-				$("#test2").load(location.href+" #test2 > *");
-				$(".cart-header").load(location.href+" .cart-header > *");
-			});
+		var ajaxUrl = (typeof easylineAjax !== 'undefined' && easylineAjax.url) ? easylineAjax.url : '/wp-admin/admin-ajax.php';
+		var ajaxNonce = (typeof easylineAjax !== 'undefined' && easylineAjax.nonce) ? easylineAjax.nonce : '';
+		$.post(ajaxUrl, {
+			action: 'set_quantity_custom',
+			nonce: ajaxNonce,
+			new_count: new_count,
+			id: count.attr('data-id')
+		}, function (response) {
+			if (response && response.success && response.data && response.data.fragments) {
+				easylineApplyFragments(response.data.fragments);
+			}
+		});
 	});
 
 	jQuery(document).on('click', '.add-to-cart', function (e) {
@@ -424,15 +448,20 @@ jQuery(document).ready(function($){
 	}
 
 	function addToCart(p_id) {
-		$.get('/?post_type=product&add-to-cart=' + p_id+'&quantity='+$("#quantity").val(), function() {
+		if (typeof wc_add_to_cart_params === 'undefined') {
+			return;
+		}
+		jQuery.post(wc_add_to_cart_params.wc_ajax_url.toString().replace('%%endpoint%%', 'add_to_cart'), {
+			product_id: p_id,
+			quantity: $("#quantity").val() || 1
+		}, function (response) {
+			if (response && response.fragments) {
+				easylineApplyFragments(response.fragments);
+			}
 			$.magnificPopup.open({
-			items: {
-				src: '#thanks'
-			},
-			type : "inline"
+				items: { src: '#thanks' },
+				type: 'inline'
 			});
-			$("#test2").load(location.href+" #test2 > *");
-			$(".cart-header").load(location.href+" .cart-header > *");
 		});
 	}
 	// $(".header .top-line .main-menu ul .sub > a").click(function (e) {
